@@ -5,9 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundo Bazar- simulacion</title>
     <script defer src="./js/main.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <h1>Mundo bazar </h1>
-    <p>simulacion de compra</p>
+    <header>
+        <h1>Mundo Bazar</h1>
+        <p>Gestión de productos</p>
+    </header>
+    <main>
+        <section>
+            <h2>Agregar producto</h2>
+            <input type="text" id="nombre-producto" placeholder="Nombre del producto">
+            <input type="number" id="precio-producto" placeholder="Precio">
+            <input type="number" id="stock-producto" placeholder="Stock">
+            <button id="btn-agregar">Agregar producto</button>
+            <p id="mensaje"></p>
+        </section>
+        <section>
+            <h2>Buscar productos</h2>
+            <input type="text" id="buscador" placeholder="Buscar producto ...">
+    </section>
+    <section>
+        <h2>Productos disponibles</h2>
+        <div id="contenedor-productos"></div>
+    </section>
+    </main>
+
 </body>
 </html>

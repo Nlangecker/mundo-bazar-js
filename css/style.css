@@ -1,0 +1,109 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial,sans-serif;
+    background-color: #f4f1ea;
+    color: #333
+}
+
+header{
+    background-color: #5c4033;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+header h1{
+    margin-bottom: 8px;
+}
+
+main{
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+section{
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+section input {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+}
+
+h2{
+    margin-bottom: 15px;
+    color: #5c4033;
+}
+
+input {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    width: 100%;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5c4033;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #7a5748;
+}
+
+#mensaje {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+#contenedor-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+#contenedor-productos div {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+#contenedor-productos h3 {
+    margin-bottom: 10px;
+    color: #5c4033;
+}
+
+#contenedor-productos p {
+    margin-bottom: 10px;
+}
+
+.btn-eliminar {
+    background-color: #b3261e;
+}
+
+.btn-eliminar:hover {
+    background-color: #8c1d18;
+}
+
+#btn-agregar{
+    margin-top: 5px;
+}

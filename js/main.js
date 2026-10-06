@@ -9,6 +9,14 @@ function clasificarCompra(total){
 } else {
     alert("Tu compra es pequeña");
 }}
+function listarProductos(lista){
+    console.log("---Productos Disponibles---");
+
+    for (const producto of lista){
+        console.log("Producto: " + producto);
+    }
+    console.log("Total de productos:" + lista.lenght);
+}
 const mostrarResultado = (nombre, producto, cantidad, total) =>{
     const mensaje= 
 "Hola " + nombre +
@@ -18,6 +26,26 @@ const mostrarResultado = (nombre, producto, cantidad, total) =>{
 console.log(mensaje);
 alert(mensaje);
 };
+const productosDisponibles =[
+    "Vasos",
+    "Platos",
+    "Cubiertos",
+    "Organizadores",
+    "Botellas",
+];
+productosDisponibles.push("Tazas");
+productosDisponibles.unshift("Termos");
+const productoEliminado = productosDisponibles.pop();
+alert("Se ha eleminado el elemento" + productoEliminado);
+const productoBuscado = prompt("Ingrese el producto que desea buscar");
+if (productosDisponibles.includes(productoBuscado)){
+    const posicion =productosDisponibles.indexOf(productoBuscado);
+    alert("El producto esta disponible en la posicion" + posicion);
+} else{
+    alert("El producto no esta disponible");
+}
+productosDisponibles.splice(2,1, "Platos de vidrio");
+listarProductos(productosDisponibles);
 
 
 const nombre = prompt("Ingrese su nombre");

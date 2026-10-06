@@ -12,12 +12,28 @@ vender(cantidad){
 const producto1 = new Producto(1, "Vasos", 2500, 20);
 const producto2 = new Producto(2, "Platos", 4000, 15);
 const producto3 = new Producto(3, "Botellas", 6000, 10);
-
 producto1.vender(3);
+const productos = [producto1, producto2, producto3];
+
+const nombreBuscado = prompt("Ingrese el nombre del producto que desea buscar");
+const productoEncontrado = productos.find( producto => producto.nombre === nombreBuscado);
+console.log(productoEncontrado)
 
 console.log(producto1);
 console.log(producto2);
 console.log(producto3);
+
+const productosConStock = productos.filter(
+    producto => producto.stock > 0
+);
+console.log("Producto con stock");
+console.log(productosConStock);
+
+const nombresProductos = productos.map(
+    producto => producto.nombre
+);
+console.log("Nombres de los productos");
+console.log(nombresProductos);
 
 function calcularTotal(precio, cantidad){
     return precio * cantidad

@@ -13,7 +13,8 @@ const producto1 = new Producto(1, "Vasos", 2500, 20);
 const producto2 = new Producto(2, "Platos", 4000, 15);
 const producto3 = new Producto(3, "Botellas", 6000, 10);
 producto1.vender(3);
-const productos = [producto1, producto2, producto3];
+const productosIniciales = [producto1, producto2, producto3];
+let productos = JSON.parse(localStorage.getItem("productos")) ?? productosIniciales;
 
 const inputNombre = document.querySelector("#nombre-producto");
 const inputPrecio = document.querySelector("#precio-producto");
@@ -27,12 +28,13 @@ function renderizarProductos(lista){
     contenedorProductos.innerHTML = "";
 
     for(const producto of lista) {
+        const { id, nombre, precio, stock } = producto;
         contenedorProductos.innerHTML += `
         <div> 
-            <h3>${producto.nombre}<h3>
-            <p>Precio: $${producto.precio}</p>
-            <p>Stock: ${producto.stock}</p>
-            <button class="btn-eliminar" data-id="${producto.id}">Elminar</button>
+            <h3>${nombre}<h3>
+            <p>Precio: $${precio}</p>
+            <p>Stock: ${stock}</p>
+            <button class="btn-eliminar" data-id="${id}">Elminar</button>
         </div>
         `;
     }
@@ -47,6 +49,7 @@ for (const boton of botonesEliminar) {
         );
 
         productos.splice(posicion, 1);
+        localStorage.setItem("productos", JSON.stringify(productos));
         renderizarProductos(productos);
 
         mensaje.textContent = "Producto eliminado correctamente";
@@ -67,9 +70,11 @@ botonAgregar.addEventListener("click", () =>{
         stock
     );
     productos.push(nuevoProducto);
+    localStorage.setItem("productos", JSON.stringify(productos));
     renderizarProductos(productos);
-    mensaje.textContent = "Producto agregado correctamente";
-
+    mensaje.textContent = stock > 0
+        ? "Producto agregado correctamente"
+        : "Producto agregado sin stock";
 });
 
 buscador.addEventListener("keyup", () => {

@@ -1,3 +1,24 @@
+class Producto{
+    constructor(id, nombre, precio, stock){
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+    }
+vender(cantidad){
+    this.stock = this.stock - cantidad;
+}
+}
+const producto1 = new Producto(1, "Vasos", 2500, 20);
+const producto2 = new Producto(2, "Platos", 4000, 15);
+const producto3 = new Producto(3, "Botellas", 6000, 10);
+
+producto1.vender(3);
+
+console.log(producto1);
+console.log(producto2);
+console.log(producto3);
+
 function calcularTotal(precio, cantidad){
     return precio * cantidad
 }
@@ -15,7 +36,7 @@ function listarProductos(lista){
     for (const producto of lista){
         console.log("Producto: " + producto);
     }
-    console.log("Total de productos:" + lista.lenght);
+    console.log("Total de productos:" + lista.length);
 }
 const mostrarResultado = (nombre, producto, cantidad, total) =>{
     const mensaje= 

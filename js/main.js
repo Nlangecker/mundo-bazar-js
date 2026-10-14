@@ -59,22 +59,35 @@ for (const boton of botonesEliminar) {
 renderizarProductos(productos);
 
 botonAgregar.addEventListener("click", () =>{
-    const nombre = inputNombre.value;
-    const precio = parseFloat(inputPrecio.value);
-    const stock = parseInt(inputStock.value);
+    try{
+        const nombre = inputNombre.value.trim();
+        const precio = parseFloat(inputPrecio.value);
+        const stock = parseInt(inputStock.value);
+        if (nombre === "" || isNaN(precio) || precio <= 0 || isNaN(stock) || stock < 0){
+            throw new Error("Completa correctamente el nombre, precio y stock.");
+            
+        }
+        const nuevoProducto = new Producto(
+            productos.length + 1,
+            nombre,
+            precio,
+            stock
+        );
 
-    const nuevoProducto = new Producto(
-        productos.length + 1,
-        nombre,
-        precio,
-        stock
-    );
-    productos.push(nuevoProducto);
-    localStorage.setItem("productos", JSON.stringify(productos));
-    renderizarProductos(productos);
-    mensaje.textContent = stock > 0
-        ? "Producto agregado correctamente"
-        : "Producto agregado sin stock";
+        productos.push(nuevoProducto);
+        localStorage.setItem("productos", JSON.stringify(productos));
+        renderizarProductos(productos);
+
+        mensaje.textContent = stock > 0
+            ? "Producto agregado correctamente"
+            : "Producto agregado sin stock";
+
+    } catch (error) {
+        mensaje.textContent = "No se pudo agregar el producto: " + error.message;
+
+    } finally {
+        console.log("Finalizó el intento de agregar producto.");
+    }
 });
 
 buscador.addEventListener("keyup", () => {
@@ -86,3 +99,9 @@ buscador.addEventListener("keyup", () => {
 
     renderizarProductos(productosFiltrados);
 });
+
+const mensajeBienvenida = document.querySelector("#mensaje-bienvenida");
+setTimeout(() =>{
+    mensajeBienvenida.textContent =
+        "¡Bienvenido a Mundo Bazar! Recorda revisar el stock disponible de nuestros productos";
+}, 3000);

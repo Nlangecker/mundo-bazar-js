@@ -9,12 +9,7 @@ vender(cantidad){
     this.stock = this.stock - cantidad;
 }
 }
-const producto1 = new Producto(1, "Vasos", 2500, 20);
-const producto2 = new Producto(2, "Platos", 4000, 15);
-const producto3 = new Producto(3, "Botellas", 6000, 10);
-producto1.vender(3);
-const productosIniciales = [producto1, producto2, producto3];
-let productos = JSON.parse(localStorage.getItem("productos")) ?? productosIniciales;
+let productos = JSON.parse(localStorage.getItem("productos")) ?? [];
 
 const inputNombre = document.querySelector("#nombre-producto");
 const inputPrecio = document.querySelector("#precio-producto");
@@ -23,6 +18,7 @@ const botonAgregar = document.querySelector("#btn-agregar");
 const mensaje = document.querySelector("#mensaje");
 const buscador = document.querySelector("#buscador");
 const contenedorProductos = document.querySelector("#contenedor-productos");
+let idEnEdicion = null
 
 function renderizarProductos(lista){
     contenedorProductos.innerHTML = "";
@@ -34,11 +30,32 @@ function renderizarProductos(lista){
             <h3>${nombre}<h3>
             <p>Precio: $${precio}</p>
             <p>Stock: ${stock}</p>
+            <button class="btn-editar" data-id="${id}">Editar</button>
             <button class="btn-eliminar" data-id="${id}">Elminar</button>
         </div>
         `;
     }
+const botonesEditar = document.querySelectorAll(".btn-editar");
+
+for (const boton of botonesEditar){
+    boton.addEventListener("click", () =>{
+        console.log("HTML del boton:", boton.outerHTML);
+        console.log("Data ID:", boton.dataset.id);
+        const idProducto = parseInt(boton.dataset.id);
+        console.log("ID seleccionado:", idProducto);
+        console.log("Productos disponibles:", productos);
+        const productoEditar = productos.find(
+            producto => producto.id === idProducto
+        );
+        idEnEdicion = idProducto;
+        botonAgregar.textContent = "Guardar cambios";
+        inputNombre.value = productoEditar.nombre;
+        inputPrecio.value = productoEditar.precio;
+        inputStock.value = productoEditar.stock;
+    } ); 
+}
 const botonesEliminar = document.querySelectorAll(".btn-eliminar");
+
 
 for (const boton of botonesEliminar) {
     boton.addEventListener("click", () => {
@@ -58,35 +75,69 @@ for (const boton of botonesEliminar) {
 }
 renderizarProductos(productos);
 
-botonAgregar.addEventListener("click", () =>{
-    try{
+botonAgregar.addEventListener("click", () => {
+    try {
         const nombre = inputNombre.value.trim();
         const precio = parseFloat(inputPrecio.value);
         const stock = parseInt(inputStock.value);
-        if (nombre === "" || isNaN(precio) || precio <= 0 || isNaN(stock) || stock < 0){
-            throw new Error("Completa correctamente el nombre, precio y stock.");
-            
-        }
-        const nuevoProducto = new Producto(
-            productos.length + 1,
-            nombre,
-            precio,
-            stock
-        );
 
-        productos.push(nuevoProducto);
+        if (nombre === "" || isNaN(precio) || precio <= 0 || isNaN(stock) || stock < 0) {
+            throw new Error("Completá correctamente el nombre, precio y stock.");
+        }
+
+        if (idEnEdicion !== null) {
+
+            const productoEditar = productos.find(
+                producto => producto.id === idEnEdicion
+            );
+
+            if (!productoEditar) {
+                throw new Error("No se encontró el producto para editar.");
+            }
+
+            productoEditar.nombre = nombre;
+            productoEditar.precio = precio;
+            productoEditar.stock = stock;
+
+            mensaje.textContent = "Producto modificado correctamente";
+
+            idEnEdicion = null;
+            botonAgregar.textContent = "Agregar producto";
+
+        } else {
+
+            const nuevoID = productos.reduce(
+                (mayor, producto) => producto.id > mayor ? producto.id : mayor,
+                0
+
+            ) + 1;
+
+            const nuevoProducto = new Producto(
+                nuevoID,
+                nombre,
+                precio,
+                stock
+            );
+
+            productos.push(nuevoProducto);
+
+            mensaje.textContent = stock > 0
+                ? "Producto agregado correctamente"
+                : "Producto agregado sin stock";
+        }
+
         localStorage.setItem("productos", JSON.stringify(productos));
         renderizarProductos(productos);
 
-        mensaje.textContent = stock > 0
-            ? "Producto agregado correctamente"
-            : "Producto agregado sin stock";
+        inputNombre.value = "";
+        inputPrecio.value = "";
+        inputStock.value = "";
 
     } catch (error) {
-        mensaje.textContent = "No se pudo agregar el producto: " + error.message;
+        mensaje.textContent = "No se pudo guardar el producto: " + error.message;
 
     } finally {
-        console.log("Finalizó el intento de agregar producto.");
+        console.log("Finalizó el intento de guardar producto.");
     }
 });
 
@@ -105,3 +156,49 @@ setTimeout(() =>{
     mensajeBienvenida.textContent =
         "¡Bienvenido a Mundo Bazar! Recorda revisar el stock disponible de nuestros productos";
 }, 3000);
+
+
+async function cargarProductos() {
+    mensaje.textContent = "Cargando productos...";
+    try {
+        const response = await fetch("./data.json");
+        if (!response.ok){
+            throw new Error(" No se pudieron cargar los productos");
+        }
+        const datos = await response.json();
+        if (localStorage.getItem("productos") === null) {
+            productos = datos;
+            localStorage.setItem("productos", JSON.stringify(productos));
+}
+renderizarProductos(productos);
+mensaje.textContent = "Productos cargados correctamente";
+Toastify({
+    text:"Productos cargados correctamente",
+    duration: 3000,
+    gravity: "top",
+    position:"right",
+    style:{
+        background:"#5d4037"
+    }
+}).showToast();
+
+} catch (error) {
+    mensaje.textContent= "Error al cargar productos: " + error.message;
+    console.error(error);
+    Toastify({
+    text: "Error al cargar los productos",
+    duration: 4000,
+    gravity: "top",
+    position:"right",
+    style:{
+        background:"#b3261e"
+    }
+}).showToast();
+} finally {
+    console.log("Finalizo la carga de productos");
+}
+}
+cargarProductos();
+
+
+

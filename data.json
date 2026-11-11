@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "nombre": "Vasos",
+        "precio": 3000,
+        "stock": 17
+        
+    },
+    {
+        "id": 2,
+        "nombre": "mate",
+        "precio": 10,
+        "stock": 0
+    },
+    {
+        "id":3,
+        "nombre": "canasto",
+        "precio": 10000,
+        "stock": 0
+    },
+    {
+        "id":4,
+        "nombre": "Vasos",
+        "precio": 30000,
+        "stock": 17
+    },
+    {
+        "id":5,
+        "nombre":"mesa plegable",
+        "precio":7000,
+        "stock":5
+    }
+
+]

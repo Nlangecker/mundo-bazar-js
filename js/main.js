@@ -32,6 +32,7 @@ function renderizarProductos(lista){
             <p>Stock: ${stock}</p>
             <button class="btn-editar" data-id="${id}">Editar</button>
             <button class="btn-eliminar" data-id="${id}">Elminar</button>
+            <button class="btn-vender" data-id="${id}">Agregar a venta</button>
         </div>
         `;
     }
@@ -39,11 +40,8 @@ const botonesEditar = document.querySelectorAll(".btn-editar");
 
 for (const boton of botonesEditar){
     boton.addEventListener("click", () =>{
-        console.log("HTML del boton:", boton.outerHTML);
-        console.log("Data ID:", boton.dataset.id);
+
         const idProducto = parseInt(boton.dataset.id);
-        console.log("ID seleccionado:", idProducto);
-        console.log("Productos disponibles:", productos);
         const productoEditar = productos.find(
             producto => producto.id === idProducto
         );
@@ -73,7 +71,6 @@ for (const boton of botonesEliminar) {
     });
 }
 }
-renderizarProductos(productos);
 
 botonAgregar.addEventListener("click", () => {
     try {
@@ -136,9 +133,7 @@ botonAgregar.addEventListener("click", () => {
     } catch (error) {
         mensaje.textContent = "No se pudo guardar el producto: " + error.message;
 
-    } finally {
-        console.log("Finalizó el intento de guardar producto.");
-    }
+    } 
 });
 
 buscador.addEventListener("keyup", () => {
@@ -161,7 +156,7 @@ setTimeout(() =>{
 async function cargarProductos() {
     mensaje.textContent = "Cargando productos...";
     try {
-        const response = await fetch("./data.json");
+        const response = await fetch("./data/data.json");
         if (!response.ok){
             throw new Error(" No se pudieron cargar los productos");
         }
@@ -194,8 +189,6 @@ Toastify({
         background:"#b3261e"
     }
 }).showToast();
-} finally {
-    console.log("Finalizo la carga de productos");
 }
 }
 cargarProductos();

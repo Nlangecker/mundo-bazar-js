@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundo Bazar- simulacion</title>
     <script defer src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
     <script defer src="./js/main.js"></script>
+    <script defer src="./js/ventas.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -34,6 +36,19 @@
     <section>
         <h2>Productos disponibles</h2>
         <div id="contenedor-productos"></div>
+    </section>
+    <section id="seccion-venta">
+        <h2>Registrar ventas</h2>
+        <div id="contenedor-venta"></div>
+        <p id="total-venta">Total: $0</p>
+        <button id="btn-confirmar-venta">Confirmar venta</button>
+        <p id="mensaje-venta"></p>
+    </section>
+    <section id="seccion-historial">
+        <h2>Historial de ventas</h2>
+        <button id="boton-vaciar-historial">Vaciar Historial</button>
+        <div id="resumen-ventas"></div>
+        <div id="contenedor-historial"></div>
     </section>
     </main>
 

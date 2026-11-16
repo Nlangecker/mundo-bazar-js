@@ -1,34 +1,38 @@
 [
     {
-        "id": 1,
-        "nombre": "Vasos",
-        "precio": 3000,
-        "stock": 17
-        
-    },
-    {
+    "id": 1,
+    "nombre": "Vasos",
+    "precio": 3000,
+    "stock": 17,
+    "imagen": "./assets/vasos-bazar.png"
+},
+{
         "id": 2,
         "nombre": "mate",
         "precio": 10,
-        "stock": 0
+        "stock": 0,
+        "imagen": "./assets/mates-bazar.png"
     },
     {
         "id":3,
         "nombre": "canasto",
         "precio": 10000,
-        "stock": 0
+        "stock": 0,
+        "imagen":"./assets/canasto-bazar-png"
     },
     {
         "id":4,
         "nombre": "Vasos",
         "precio": 30000,
-        "stock": 17
+        "stock": 17,
+        "imagen":":/assets/vasos-bazar.png"
     },
     {
         "id":5,
         "nombre":"mesa plegable",
         "precio":7000,
-        "stock":5
+        "stock":5,
+        "imagen":"./assets/mesapleglable-bazar.png"
     }
 
 ]

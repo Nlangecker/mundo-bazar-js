@@ -9,7 +9,20 @@ vender(cantidad){
     this.stock = this.stock - cantidad;
 }
 }
-let productos = JSON.parse(localStorage.getItem("productos")) ?? [];
+let productos = JSON.parse(localStorage.getItem("productos")) || [];
+
+
+productos.forEach(producto => {
+    if (!producto.imagen) {
+        const nombre = producto.nombre.toLowerCase();
+
+        if (nombre === "vasos") producto.imagen = "./assets/vasos-bazar.png";
+        else if (nombre === "mate") producto.imagen = "./assets/mates-bazar.png";
+        else if (nombre === "canasto") producto.imagen = "./assets/canasto-bazar.png";
+        else if (nombre === "mesa plegable") producto.imagen = "./assets/mesaplegable-bazar.png";
+    }
+});
+localStorage.setItem("productos", JSON.stringify(productos));
 
 const inputNombre = document.querySelector("#nombre-producto");
 const inputPrecio = document.querySelector("#precio-producto");
@@ -21,21 +34,23 @@ const contenedorProductos = document.querySelector("#contenedor-productos");
 let idEnEdicion = null
 
 function renderizarProductos(lista){
-    contenedorProductos.innerHTML = "";
+    let tarjetasHTML = "";
 
     for(const producto of lista) {
-        const { id, nombre, precio, stock } = producto;
-        contenedorProductos.innerHTML += `
-        <div> 
-            <h3>${nombre}<h3>
-            <p>Precio: $${precio}</p>
-            <p>Stock: ${stock}</p>
+        const { id, nombre, precio, stock, imagen } = producto;
+        tarjetasHTML += `
+        <div>  
+            <img src="${imagen}" alt= "Imagen de ${nombre}" class="imagen-producto">
+            <h3>${nombre}</h3>
+            <p>Precio: $${precio.toLocaleString("es-AR")}</p>
+            <p>Stock: ${stock === 0 ? "Agotado" : stock}</p>
             <button class="btn-editar" data-id="${id}">Editar</button>
-            <button class="btn-eliminar" data-id="${id}">Elminar</button>
+            <button class="btn-eliminar" data-id="${id}">Eliminar</button>
             <button class="btn-vender" data-id="${id}">Agregar a venta</button>
         </div>
         `;
     }
+    contenedorProductos.innerHTML = tarjetasHTML;
 const botonesEditar = document.querySelectorAll(".btn-editar");
 
 for (const boton of botonesEditar){
@@ -50,6 +65,11 @@ for (const boton of botonesEditar){
         inputNombre.value = productoEditar.nombre;
         inputPrecio.value = productoEditar.precio;
         inputStock.value = productoEditar.stock;
+        document.getElementById("seccion-formulario").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+        mensaje.textContent = "Estas editando un producto.Modificá los datos y guardá los cambios.";
     } ); 
 }
 const botonesEliminar = document.querySelectorAll(".btn-eliminar");
@@ -69,7 +89,7 @@ for (const boton of botonesEliminar) {
 
         mensaje.textContent = "Producto eliminado correctamente";
     });
-}
+    }
 }
 
 botonAgregar.addEventListener("click", () => {
@@ -80,6 +100,14 @@ botonAgregar.addEventListener("click", () => {
 
         if (nombre === "" || isNaN(precio) || precio <= 0 || isNaN(stock) || stock < 0) {
             throw new Error("Completá correctamente el nombre, precio y stock.");
+        }
+
+        const productoDuplicado = productos.some(producto =>
+            producto.nombre.trim().toLowerCase() === nombre.toLowerCase() &&
+            producto.id !== idEnEdicion
+        );
+        if (productoDuplicado) {
+            throw new Error("Ya existe un producto con ese nombre.");
         }
 
         if (idEnEdicion !== null) {
@@ -96,7 +124,13 @@ botonAgregar.addEventListener("click", () => {
             productoEditar.precio = precio;
             productoEditar.stock = stock;
 
+            const nuevaImagen = document.getElementById("imagen-producto").value.trim();
+            if (nuevaImagen !== ""){
+                productoEditar.imagen= nuevaImagen;
+            }
+
             mensaje.textContent = "Producto modificado correctamente";
+            mensaje.style.color = "green";
 
             idEnEdicion = null;
             botonAgregar.textContent = "Agregar producto";
@@ -113,14 +147,17 @@ botonAgregar.addEventListener("click", () => {
                 nuevoID,
                 nombre,
                 precio,
-                stock
+                    stock
             );
+        
+        nuevoProducto.imagen = document.getElementById("imagen-producto").value.trim();
 
             productos.push(nuevoProducto);
 
             mensaje.textContent = stock > 0
                 ? "Producto agregado correctamente"
                 : "Producto agregado sin stock";
+                mensaje.style.color = "green";
         }
 
         localStorage.setItem("productos", JSON.stringify(productos));
@@ -132,7 +169,7 @@ botonAgregar.addEventListener("click", () => {
 
     } catch (error) {
         mensaje.textContent = "No se pudo guardar el producto: " + error.message;
-
+        mensaje.style.color = "red";
     } 
 });
 
@@ -149,7 +186,7 @@ buscador.addEventListener("keyup", () => {
 const mensajeBienvenida = document.querySelector("#mensaje-bienvenida");
 setTimeout(() =>{
     mensajeBienvenida.textContent =
-        "¡Bienvenido a Mundo Bazar! Recorda revisar el stock disponible de nuestros productos";
+        "¡Bienvenido a Mundo Bazar! Recordá revisar el stock disponible de nuestros productos";
 }, 3000);
 
 

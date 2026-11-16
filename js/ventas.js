@@ -1,5 +1,4 @@
 const contenedorVenta = document.querySelector("#contenedor-venta");
-console.log("Contenedor encontrado:", contenedorVenta);
 const totalVenta = document.querySelector("#total-venta");
 const botonConfirmarVenta = document.querySelector("#btn-confirmar-venta");
 const mensajeVenta = document.querySelector("#mensaje-venta");
@@ -70,8 +69,7 @@ function mostrarCarrito() {
 contenedorVenta.addEventListener("click", (evento) =>{
     if(evento.target.classList.contains("btn-sumar")){
         const idProducto = Number(evento.target.dataset.id);
-        console.log("Valor original del ID:", evento.target.dataset.id);
-        console.log("HTML del botón:", evento.target.outerHTML);
+
 
         const productoEnCarrito = carrito.find(
             producto => producto.id === idProducto

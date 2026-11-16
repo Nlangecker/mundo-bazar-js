@@ -198,7 +198,7 @@ async function cargarProductos() {
             throw new Error(" No se pudieron cargar los productos");
         }
         const datos = await response.json();
-        if (localStorage.getItem("productos") === null) {
+        if (localStorage.getItem("productos") === null || productos.length === 0) {
             productos = datos;
             localStorage.setItem("productos", JSON.stringify(productos));
 }

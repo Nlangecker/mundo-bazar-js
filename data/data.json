@@ -18,21 +18,21 @@
         "nombre": "canasto",
         "precio": 10000,
         "stock": 0,
-        "imagen":"./assets/canasto-bazar-png"
+        "imagen": "./assets/canasto-bazar.png"
     },
     {
         "id":4,
         "nombre": "Vasos",
         "precio": 30000,
         "stock": 17,
-        "imagen":":/assets/vasos-bazar.png"
+        "imagen": "./assets/vasos-bazar.png"
     },
     {
         "id":5,
         "nombre":"mesa plegable",
         "precio":7000,
         "stock":5,
-        "imagen":"./assets/mesapleglable-bazar.png"
+        "imagen": "./assets/mesaplegable-bazar.png"
     }
 
 ]

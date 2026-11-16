@@ -166,6 +166,7 @@ botonAgregar.addEventListener("click", () => {
         inputNombre.value = "";
         inputPrecio.value = "";
         inputStock.value = "";
+        document.getElementById("imagen-producto").value = "";
 
     } catch (error) {
         mensaje.textContent = "No se pudo guardar el producto: " + error.message;

@@ -22,7 +22,7 @@ productos.forEach(producto => {
         else if (nombre === "mesa plegable") producto.imagen = "./assets/mesaplegable-bazar.png";
     }
 });
-localStorage.setItem("productos", JSON.stringify(productos));
+
 
 const inputNombre = document.querySelector("#nombre-producto");
 const inputPrecio = document.querySelector("#precio-producto");
@@ -198,9 +198,9 @@ async function cargarProductos() {
             throw new Error(" No se pudieron cargar los productos");
         }
         const datos = await response.json();
-        if (localStorage.getItem("productos") === null || productos.length === 0) {
-            productos = datos;
-            localStorage.setItem("productos", JSON.stringify(productos));
+        if (localStorage.getItem("productos") === null) {
+    productos = datos;
+    localStorage.setItem("productos", JSON.stringify(productos));
 }
 renderizarProductos(productos);
 mensaje.textContent = "Productos cargados correctamente";

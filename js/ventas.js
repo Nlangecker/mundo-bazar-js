@@ -168,14 +168,14 @@ botonConfirmarVenta.addEventListener("click", () => {
 });
 
 function mostrarHistorial(){
-    contenedorHistorial.innerHTML = "";
+    let historialHTML = "";
     if(historialVentas.length === 0){
         contenedorHistorial.textContent = "Todavia no hay ventas registradas";
         return;
     }
 
     for (const venta of [... historialVentas].reverse()){
-        contenedorHistorial.innerHTML += `
+        historialHTML += `
         <div class="venta-historial">
         <p>Fecha: ${venta.fecha}</p>
         <p>Producto vendidos:</p>
@@ -189,6 +189,7 @@ function mostrarHistorial(){
         </div>
         `;
     }
+    contenedorHistorial.innerHTML = historialHTML;
 }
 mostrarHistorial();
 

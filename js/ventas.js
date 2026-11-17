@@ -50,16 +50,17 @@ contenedorProductos.addEventListener("click", (evento) =>{
         }
 });
 function mostrarCarrito() {
-    contenedorVenta.innerHTML = "";
+    let carritoHTML = "";
 
     for (const producto of carrito) {
-        contenedorVenta.innerHTML += `
+        carritoHTML += `
         <p>${producto.nombre} - Cantidad ${producto.cantidad} - Precio: $${producto.precio}</p>
         <button class="btn-sumar" data-id="${producto.id}">+</button>
         <button class="btn-restar" data-id="${producto.id}">-</button>
         <button class="btn-quitar" data-id="${producto.id}">Quitar</button>
         `;
     }
+    contenedorVenta.innerHTML = carritoHTML;
     const total= carrito.reduce(
         (acumulador, producto) => acumulador + producto.precio * producto.cantidad,     
         0
@@ -118,6 +119,19 @@ if (evento.target.classList.contains("btn-quitar")) {
 botonConfirmarVenta.addEventListener("click", () => {
     if (carrito.length === 0){
         mensajeVenta.textContent = "No hay productos para confirmar la venta.";
+        return;
+    }
+
+        const stockInsuficiente = carrito.some(item => {
+        const productoInventario = productos.find(
+            producto => producto.id === item.id
+        );
+
+        return !productoInventario || productoInventario.stock < item.cantidad;
+    });
+
+    if (stockInsuficiente) {
+        mensajeVenta.textContent = "No se puede confirmar la venta: stock insuficiente.";
         return;
     }
 
